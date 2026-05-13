@@ -1,0 +1,27 @@
+[project]
+name = "teaching-aid"
+version = "0.1.0"
+description = "Manim animations for teaching ML / systems concepts (matmul, LLM dataflow, etc.)"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "manim==0.20.1",
+]
+
+# This repo is a collection of standalone Manim scene scripts at the project
+# root — not a library to be built/installed. Tell uv not to build it.
+[tool.uv]
+package = false
+# Force pycairo to build from source. The prebuilt wheel on PyPI for some
+# pycairo releases is x86_64-only, which fails to load on Apple Silicon
+# (arm64) Macs with:
+#   ImportError: ... (mach-o file, but is an incompatible architecture
+#   (have 'x86_64', need 'arm64' ...))
+# Building from source links against the Homebrew cairo (installed via
+# `brew install cairo pkgconf`) and produces a native arm64 binary.
+no-binary-package = ["pycairo"]
+dev-dependencies = [
+    "ruff>=0.6",
+    "ipython>=8",
+]
+
